@@ -4,6 +4,7 @@ import { ref } from 'vue';
 import { useStore } from "../store"
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const router = useRouter();
 const password = ref('');
@@ -14,7 +15,15 @@ const first = ref("")
 const last = ref("")
 
 
-const handleregesiter = () => {
+async function registerByEmail() {
+  try {
+    const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
+    await updateProfile(user, { displayName: `${firstName.value} ${lastName.value}` });
+    store.user = user;
+    router.push("/movies");
+  } catch (error) {
+    alert("There was an error creating a user with email!");
+  }
   if (password.value == repassword.value) {
     store.last = last.value
     store.first = first.value
@@ -26,6 +35,15 @@ const handleregesiter = () => {
   }
 }
 
+async function registerByGoogle() {
+  try {
+    const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+    store.user = user;
+    router.push("/movies");
+  } catch (error) {
+    alert("There was an error creating a user with Google!");
+  }
+}
 </script>
 
 <template>
@@ -33,7 +51,7 @@ const handleregesiter = () => {
   <div class="container3">
     <div class="form-container">
       <h2>Create an Account</h2>
-      <form @submit.prevent="handleregesiter">
+      <form @submit.prevent="registerByEmail">
         <input type="text" v-model:="first" placeholder="First Name" class="input-field" required>
         <input type="text" v-model:="last" placeholder="Last Name" class="input-field" required>
         <input type="email" v-model:="email" placeholder="Email" class="input-field" required>
@@ -42,6 +60,8 @@ const handleregesiter = () => {
         <button type="submit" class="button register">Register</button>
       </form>
     </div>
+    <br>
+    <button @click="registerByGoogle()" class="button register">Register by Google</button>
   </div>
   <br>
   <br>
