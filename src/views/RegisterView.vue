@@ -25,8 +25,17 @@ async function registerByEmail() {
   } catch (error) {
     alert("There was an error creating a user with email!");
   }
- 
+  if (password.value == repassword.value) {
+    store.last = last.value
+    store.first = first.value
+    store.email = email.value;
+    router.push("/movies");
+  }
+  else {
+    alert("Your passwords do not match up");
+  }
 }
+
 
 async function registerByGoogle() {
   try {

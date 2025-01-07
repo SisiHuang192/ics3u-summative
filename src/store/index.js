@@ -15,7 +15,7 @@ export const userAuthorized = new Promise((resolve, reject) => {
     try {
       const store = useStore();
       store.user = user;
-      const storedCart = localStorage.getItem(`cart_${store.user.email}`);
+      const storedCart = localStorage.getItem(`cart_${store.user?.email}`);
 
       store.cart = storedCart ? new Map(Object.entries(JSON.parse(storedCart))) : new Map();
       resolve();
