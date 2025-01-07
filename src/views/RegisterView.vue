@@ -1,9 +1,10 @@
 <script setup>
-import { RouterLink, useRouter } from 'vue-router';
+import { useRouter } from 'vue-router';
 import { ref } from 'vue';
 import { useStore } from "../store"
 import Header from '@/components/Header.vue';
 import Footer from '@/components/Footer.vue';
+import { auth } from "../firebase";
 import { createUserWithEmailAndPassword, updateProfile, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 
 const router = useRouter();
@@ -18,21 +19,13 @@ const last = ref("")
 async function registerByEmail() {
   try {
     const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
-    await updateProfile(user, { displayName: `${firstName.value} ${lastName.value}` });
+    await updateProfile(user, { displayName: `${first.value} ${last.value}` });
     store.user = user;
     router.push("/movies");
   } catch (error) {
     alert("There was an error creating a user with email!");
   }
-  if (password.value == repassword.value) {
-    store.last = last.value
-    store.first = first.value
-    store.email = email.value;
-    router.push("/movies");
-  }
-  else {
-    alert("Your passwords do not match up");
-  }
+ 
 }
 
 async function registerByGoogle() {
@@ -51,7 +44,7 @@ async function registerByGoogle() {
   <div class="container3">
     <div class="form-container">
       <h2>Create an Account</h2>
-      <form @submit.prevent="registerByEmail">
+      <form @submit.prevent="registerByEmail()">
         <input type="text" v-model:="first" placeholder="First Name" class="input-field" required>
         <input type="text" v-model:="last" placeholder="Last Name" class="input-field" required>
         <input type="email" v-model:="email" placeholder="Email" class="input-field" required>
