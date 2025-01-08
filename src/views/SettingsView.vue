@@ -6,7 +6,7 @@ import { useStore } from "../store"
 
 const store = useStore();
 const last = ref('')
-const first = ('')
+const first = ref('')
 const email = ref('')
 
 async function storeinfo(){
