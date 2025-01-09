@@ -4,7 +4,6 @@ import { ref } from 'vue';
 
 const message = ref('')
 const store = useStore();
-console.log(store.cart);
 
 const handleCheckout = () => {
   store.cart.clear(); 
