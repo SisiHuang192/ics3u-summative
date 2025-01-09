@@ -39,8 +39,8 @@ const loginByGoogle = async () => {
     <div class="form-container">
       <h2>Login to Your Account</h2>
       <form @submit.prevent="loginByEmail()">
-        <input type="email" placeholder="Email" class="input-field" required />
-        <input v-model:="password" type="password" placeholder="Password" class="input-field" required />
+        <input type="email" v-model= "email" placeholder="Email" class="input-field" required />
+        <input v-model="password" type="password" placeholder="Password" class="input-field" required />
         <button type="submit" class="button login">Login</button>
       </form>
       <br>
