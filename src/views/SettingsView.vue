@@ -1,40 +1,27 @@
 <script setup>
 import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue"
-import { ref } from 'vue';
-import { useStore } from "../store"
-
+import { useStore } from '../store';
 const store = useStore();
-const last = ref('')
-const first = ref('')
-const email = ref('')
-
-async function storeinfo(){
-    store.last = last.value
-    store.first = first.value
-    store.email = email.value;
-}
 </script>
 
 <template>
 <Header/>
-<form @submit.prevent="storeinfo()">
     <div class="settings-container">
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="first" />
+            <input type="text" v-model="store.first" />
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="last"/>
+            <input type="text" v-model="store.last"/>
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
-            <input type="email" :value="store.email" v-model ="email" disabled />
+            <input type="email" :value="store.email" disabled />
         </div>
     </div>
-</form>
     <br>
 <Footer/>
 </template>
