@@ -3,6 +3,7 @@ import { computed } from "vue";
 import { useRoute, RouterLink } from 'vue-router';
 import { useStore } from '../store';
 import imageSrc from "../images/image-removebg-preview.png";
+import { auth } from '../firebase';
 
 const route = useRoute();
 const store = useStore();
@@ -50,7 +51,7 @@ const isMovieRoute = computed(() => route.name === 'movie' || route.path.startsW
         Solstice
       </h1>
       <h1 v-else>
-        {{ `Hello ${store.first}!` }}
+        {{ `Hello ${store.user.first}!` }}
       </h1>
     </div>
   </div>
