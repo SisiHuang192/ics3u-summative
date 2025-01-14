@@ -22,7 +22,7 @@ async function registerByEmail() {
   }
   try {
     const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
-    await updateProfile(user, { displayName: `${first.value} ${last.value}` });
+    //await updateProfile(user, { displayName: `${first.value} ${last.value}` }); problem with this
     store.user = user;
     router.push("/movies");
   } catch (error) {
