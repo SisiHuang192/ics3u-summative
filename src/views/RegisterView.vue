@@ -21,24 +21,28 @@ async function registerByEmail() {
     return;
   }
   try {
+
     const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
-    //await updateProfile(user, { displayName: `${first.value} ${last.value}` }); problem with this
+    await updateProfile(user, { displayName: `${first.value} ${last.value}` });
     store.user = user;
+    console.log("First name:", first.value);
+    console.log("Last name:", last.value);
+
     router.push("/movies");
   } catch (error) {
     alert("There was an error creating a user with email!");
   }
-  }
+}
 
 async function registerByGoogle() {
-    try {
-      const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
-      store.user = user;
-      router.push("/movies");
-    } catch (error) {
-      alert("There was an error creating a user with Google!");
-    }
+  try {
+    const user = (await signInWithPopup(auth, new GoogleAuthProvider())).user;
+    store.user = user;
+    router.push("/movies");
+  } catch (error) {
+    alert("There was an error creating a user with Google!");
   }
+}
 
 </script>
 
