@@ -51,7 +51,7 @@ const isMovieRoute = computed(() => route.name === 'movie' || route.path.startsW
         Solstice
       </h1>
       <h1 v-else>
-        {{ `Hello ${store.user.first}!` }}
+        {{ `Hello ${store.user.displayName || store.user.first}!` }}
       </h1>
     </div>
   </div>

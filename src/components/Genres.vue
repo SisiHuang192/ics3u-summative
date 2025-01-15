@@ -38,7 +38,7 @@ const addToCart = (movie) => {
       <div v-for="movie in response.data.results" :key="movie.id" class="movie-card">
         <img :src="`https://image.tmdb.org/t/p/w500${movie.poster_path}`" alt="Movie Poster" class="movie-poster" @click="getMovieDetails(movie.id)"/>
         <p class="movie-title">{{ movie.title }}</p>
-        <center><button @click="addToCart(movie)" class="movie-site">{{ store.cart.has(movie.id) ? "Added" : "Buy" }}</button></center>
+        <button @click="addToCart(movie)" class="movie-site">{{ store.cart.has(movie.id) ? "Added" : "Buy" }}</button>
       </div>
     </div>
   </div>
