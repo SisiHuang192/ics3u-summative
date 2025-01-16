@@ -25,9 +25,6 @@ async function registerByEmail() {
     const user = (await createUserWithEmailAndPassword(auth, email.value, password.value)).user;
     await updateProfile(user, { displayName: `${first.value} ${last.value}` });
     store.user = user;
-    console.log("First name:", first.value);
-    console.log("Last name:", last.value);
-
     router.push("/movies");
   } catch (error) {
     alert("There was an error creating a user with email!");
