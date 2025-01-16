@@ -7,32 +7,32 @@ import { computed, ref } from 'vue';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
 const store = useStore();
-const first = ref('')
-const password = ref('')
-const last = ref('')
+const first = ref(store.first)
+const newPassword = ref('')
+const last = ref(store.last)
 
 
-const user = (auth, password.value).user;
-store.user = user;
-
-async function savechanges() {
-    if (first.value === first.value) {
-        const firstName = { displayName: first.value };
-        const lastName = { displayName: last.value }
-    }
+const Savechanges = async () => {
+if()
+  try{
+    await updateProfile(auth.currentUser,{displayName: `${first.value} ${last.value}`});
+    
+  }catch(error){
+    alert("failed")
 }
+};
 
 
-console.log(password.value)
 </script>
 
 <template>
     <Header />
+
     <div class="settings-container">
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="firstName" />
+            <input type="text" v-model="first" />
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
@@ -40,13 +40,13 @@ console.log(password.value)
         </div>
         <div class="setting-item">
             <label for="email">Password:</label>
-            <input type="email" v-model="password" />
+            <input type="email" v-model="newPassword" />
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
             <input type="email" :value="store.user.email" disabled />
         </div>
-        <button>Save Changes</button>
+        <button @click="Savechanges">Save Changes</button>
     </div>
     <br>
     <Footer />
