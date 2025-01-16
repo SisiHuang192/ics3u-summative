@@ -1,8 +1,21 @@
 <script setup>
 import Footer from "../components/Footer.vue";
-import Header from "../components/Header.vue"
+import Header from "../components/Header.vue";
 import { useStore } from '../store';
+import { computed } from 'vue';
+import { updateProfile } from 'firebase/auth';
+
 const store = useStore();
+
+const firstName = computed({
+  get: () => store.user,
+  set: (value) => store.commit('updateFirstName', value),
+});
+
+const lastName = computed({
+  get: () => store.user,
+  set: (value) => store.commit('updateLastName', value),
+});
 </script>
 
 <template>
@@ -11,15 +24,15 @@ const store = useStore();
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="store.first" />
+            <input type="text" v-model="firstName"/>
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="store.last"/>
+            <input type="text" v-model="last"/>
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
-            <input type="email" :value="store.email" disabled />
+            <input type="email" :value="store.user.email" disabled />
         </div>
     </div>
     <br>

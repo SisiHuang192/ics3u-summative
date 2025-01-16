@@ -1,12 +1,22 @@
 <script setup>
 import { computed } from "vue";
-import { useRoute, RouterLink } from 'vue-router';
+import { useRouter, RouterView, useRoute } from 'vue-router';
 import { useStore } from '../store';
 import imageSrc from "../images/image-removebg-preview.png";
 import { auth } from '../firebase';
+import { signOut } from 'firebase/auth';
+
 
 const route = useRoute();
 const store = useStore();
+const router = useRouter();
+
+
+const logout = () => {
+  store.user = null;
+  signOut(auth);
+  router.push(`/`);
+}
 
 const currentPath = computed(() => route.path);
 const isMovieRoute = computed(() => route.name === 'movie' || route.path.startsWith('/movies/'));
@@ -32,7 +42,7 @@ const isMovieRoute = computed(() => route.name === 'movie' || route.path.startsW
       Settings
     </RouterLink>
 
-    <RouterLink
+    <RouterLink @click="logout()"
       v-if="isMovieRoute || currentPath === '/settings' || currentPath === '/cart' || currentPath === '/movies'" to="/"
       class="button">
       Logout

@@ -7,6 +7,7 @@ const store = useStore();
 
 const handleCheckout = () => {
   store.cart.clear(); 
+  localStorage.clear();
   message.value = 'Thanks for purchasing!'; 
 };
 </script>
