@@ -2,41 +2,54 @@
 import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import { useStore } from '../store';
-import { computed } from 'vue';
-import { updateProfile } from 'firebase/auth';
+import { auth } from "../firebase";
+import { computed, ref } from 'vue';
+import { updatePassword, updateProfile } from 'firebase/auth';
 
 const store = useStore();
+const first = ref('')
+const password = ref('')
+const last = ref('')
 
-const firstName = computed({
-  get: () => store.user,
-  set: (value) => store.commit('updateFirstName', value),
-});
 
-const lastName = computed({
-  get: () => store.user,
-  set: (value) => store.commit('updateLastName', value),
-});
+const user = (auth, password.value).user;
+store.user = user;
+
+async function savechanges() {
+    if (first.value === first.value) {
+        const firstName = { displayName: first.value };
+        const lastName = { displayName: last.value }
+    }
+}
+
+
+console.log(password.value)
 </script>
 
 <template>
-<Header/>
+    <Header />
     <div class="settings-container">
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="firstName"/>
+            <input type="text" v-model="firstName" />
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="last"/>
+            <input type="text" v-model="last" />
+        </div>
+        <div class="setting-item">
+            <label for="email">Password:</label>
+            <input type="email" v-model="password" />
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
             <input type="email" :value="store.user.email" disabled />
         </div>
+        <button>Save Changes</button>
     </div>
     <br>
-<Footer/>
+    <Footer />
 </template>
 
 <style scoped>
@@ -44,7 +57,7 @@ const lastName = computed({
     max-width: 800px;
     margin: 20px auto;
     padding: 20px;
-    background-color:#e6d1f2 ;
+    background-color: #e6d1f2;
     border-radius: 8px;
     box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
 }
