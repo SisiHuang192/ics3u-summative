@@ -7,14 +7,12 @@ import { ref, computed } from 'vue';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
 const store = useStore();
-const first = ref(store.first);
 const newPassword = ref('');
-const last = ref(store.last);
 const user = ref(store.user);
+const first = ref(store.user.displayName.split(" ")[0]);
+const last = ref(store.user.displayName.split(" ")[1]);
 const password = user.value.password
 
-const displayName = user.value.displayName || "";
-const [firstname, lastname] = displayName.split(" ") || ["", ""];
 
 const isGoogleSignIn = computed(() => {
   return auth.currentUser?.providerData?.some(provider => provider.providerId === 'google.com');
@@ -43,15 +41,15 @@ const SaveChanges = async () => {
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="first" :placeholder="firstname" :disabled="isGoogleSignIn"/>
+            <input type="text" v-model="first":disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="last" :placeholder="lastname" :disabled="isGoogleSignIn"/>
+            <input type="text" v-model="last":disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
             <label for="password"> Change Password:</label>
-            <input type="password" v-model="newPassword" :placeholder="password" :disabled="isGoogleSignIn"/>
+            <input type="password" v-model="newPassword":disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
