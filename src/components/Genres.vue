@@ -23,7 +23,7 @@ onMounted(async () => {
 })
 
 const addToCart = (movie) => {
-  store.cart.set(movie.id,{ title: movie.original_title, url: movie.poster_path })
+  store.cart.set(String(movie.id),{ title: movie.original_title, url: movie.poster_path })
   localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
 }
 </script>

@@ -10,6 +10,11 @@ const handleCheckout = () => {
   localStorage.clear();
   message.value = 'Thanks for purchasing!'; 
 };
+
+const removeFromCart = (key) => {
+    store.cart.delete(key);
+    localStorage.setItem(`cart_${store.user.email}`, JSON.stringify(Object.fromEntries(store.cart)));
+}
 </script>
 
 <template>
@@ -22,7 +27,7 @@ const handleCheckout = () => {
         <div class="item" v-for="([key, value]) in store.cart">
             <img :src="`https://image.tmdb.org/t/p/w500${value.url}`" />
             <h1>{{ value.title }}</h1>
-            <button @click="store.cart.delete(key)">Remove</button>
+            <button @click="removeFromCart(key)">Remove</button>
         </div>
     </div>
 </template>
