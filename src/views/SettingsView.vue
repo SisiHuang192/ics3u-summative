@@ -3,26 +3,37 @@ import Footer from "../components/Footer.vue";
 import Header from "../components/Header.vue";
 import { useStore } from '../store';
 import { auth } from "../firebase";
-import { computed, ref } from 'vue';
+import { ref, computed } from 'vue';
 import { updatePassword, updateProfile } from 'firebase/auth';
 
 const store = useStore();
-const first = ref(store.first)
-const newPassword = ref('')
-const last = ref(store.last)
+const first = ref(store.first);
+const newPassword = ref('');
+const last = ref(store.last);
+const user = ref(store.user);
+const password = user.value.password
 
+const displayName = user.value.displayName || "";
+const [firstname, lastname] = displayName.split(" ") || ["", ""];
 
-const Savechanges = async () => {
-if()
-  try{
-    await updateProfile(auth.currentUser,{displayName: `${first.value} ${last.value}`});
-    
-  }catch(error){
-    alert("failed")
-}
+const isGoogleSignIn = computed(() => {
+  return auth.currentUser?.providerData?.some(provider => provider.providerId === 'google.com');
+});
+
+const SaveChanges = async () => {
+  try {
+    if (newPassword.value) {
+      await updatePassword(auth.currentUser, newPassword.value);
+      alert("Password updated successfully.");
+    }
+
+    await updateProfile(auth.currentUser, { displayName: `${first.value} ${last.value}` });
+    alert("Profile updated successfully.");
+  } catch (error) {
+    console.error("Error updating profile or password:", error);
+    alert("Failed to update. Please try again.");
+  }
 };
-
-
 </script>
 
 <template>
@@ -32,21 +43,21 @@ if()
         <h1>Settings</h1>
         <div class="setting-item">
             <label for="firstName">First Name:</label>
-            <input type="text" v-model="first" />
+            <input type="text" v-model="first" :placeholder="firstname" :disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
             <label for="lastName">Last Name:</label>
-            <input type="text" v-model="last" />
+            <input type="text" v-model="last" :placeholder="lastname" :disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
-            <label for="email">Password:</label>
-            <input type="email" v-model="newPassword" />
+            <label for="password"> Change Password:</label>
+            <input type="password" v-model="newPassword" :placeholder="password" :disabled="isGoogleSignIn"/>
         </div>
         <div class="setting-item">
             <label for="email">Email:</label>
             <input type="email" :value="store.user.email" disabled />
         </div>
-        <button @click="Savechanges">Save Changes</button>
+        <button @click="SaveChanges" :disabled="isGoogleSignIn">Save Changes</button>
     </div>
     <br>
     <Footer />

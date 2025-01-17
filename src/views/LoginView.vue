@@ -4,6 +4,8 @@ import { ref } from 'vue';
 import { useStore } from "../store"
 import { signInWithEmailAndPassword, signInWithPopup, GoogleAuthProvider } from "firebase/auth";
 import { auth } from "../firebase"
+import Header from '@/components/Header.vue';
+import Footer from '@/components/Footer.vue';
 
 const store = useStore();
 const router = useRouter();
