@@ -8,11 +8,8 @@ import { updatePassword, updateProfile } from 'firebase/auth';
 
 const store = useStore();
 const newPassword = ref('');
-const user = ref(store.user);
 const first = ref(store.user.displayName.split(" ")[0]);
 const last = ref(store.user.displayName.split(" ")[1]);
-const password = user.value.password
-
 
 const isGoogleSignIn = computed(() => {
   return auth.currentUser?.providerData?.some(provider => provider.providerId === 'google.com');
